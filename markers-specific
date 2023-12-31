@@ -1,0 +1,15 @@
+Apical radial glia (aRG)	EMX1,SOX2,HES1
+Cajal-Retzius cells	RELN
+Cortical plate cells	EMX2,FOXP2,EOMES
+intermediate progenitor (IP)	EMX1,EOMES,INSM1,PPP1R17,TMEM158
+Subcortical interneurons	LAMP5,LHX5,GAD2
+Immature deep layer projection neurons	FEZF1,NEUROD2,NEUROD6,TBR1,PDE1A
+Corticofugal Projection Neuron (CFuPN)	SOX5,LDB2,CRYM,TLE4,BCL11B
+Outer radial glia (oRG)	SOX2,HOPX,PEA15,LGALS3BP,MOXD1,TNC,LGALS3
+Callosal projection neuron (CPN)	UNC5A,EPHA4,BHLHE22,PLXNA4,SATB2,INHBA,FRMD48
+Astroglia	GJA1,S100B,SPARC,GFAP,AGT,AQP4
+Cortical interneurons	FOXG1,SP8,SCGN,PROX1,CALB2
+Immature Interneurons	GAD2,DLX2,DLX5,DLX1
+Oligo precursors	OLIG1,OLIG2,PDGFRA
+Cycling Interneuron progenitors	BIRC5,DLX2,DLX5,MKI67,TOP2A
+Pre-Oligodendrocyte Precursor Cells (pre-OPC)	HES1,HOPX,MOXD1,EGFR,PDGFRA,OLIG1,OLIG2

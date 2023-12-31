@@ -1,0 +1,271 @@
+---  
+title: "scRNA-seq: Integration Mini Report"
+author: "SysBioLab"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    fig_width: 12
+---
+
+<!-- Sergio Alías, 20231031 -->
+<!-- Last modified 20231216 -->
+
+<style type='text/css'>
+    body .main-container {
+        max-width: 90%;
+
+    }
+
+    .plot_real_size {
+      overflow: scroll;
+      max-height: 600px;
+    }
+
+    .plot_real_size img{
+      max-width: none;
+      max-height: none;
+    }
+
+    embed {
+   
+  }   
+</style>
+
+<style>
+.dropdown-content {
+  display: none;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+
+<style>
+  .superbigimage{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .superbigimage img{
+     max-width: none;
+  }
+
+
+</style>
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Integrating by genotype: WT vs mutant
+
+```{r setup, include = FALSE}
+library(Seurat)
+library(dplyr)
+library(gridExtra)
+library(RColorBrewer)
+library(ggplot2)
+library(scCustomize)
+setwd("outs")
+seu.markers.mutant <- readRDS("seu.markers.mutant.RDS")
+seu.markers.WT <- readRDS("seu.markers.WT.RDS")
+seu.mutant <- readRDS("seu.mutant.RDS")
+seu.WT <- readRDS("seu.WT.RDS")
+```
+
+## UMAP: WT vs mutant
+
+<div class="superbigimage">
+
+```{r c10, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "umap", label = FALSE) + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+
+</div>
+<div class="superbigimage">
+
+```{r c10b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "umap", label = FALSE) + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+</div>
+
+## UMAP splitted by time: WT vs mutant
+
+<div class="superbigimage">
+
+```{r c20, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "umap", split.by = "time") + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+</div>
+<div class="superbigimage">
+
+```{r c20b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "umap", split.by = "time") + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+
+</div>
+
+## UMAP grouped by time: WT vs mutant
+
+```{r c30, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "umap", group.by = "time")
+```
+
+```{r c30b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "umap", group.by = "time")
+```
+
+
+## PCA
+
+## PCA: WT vs mutant
+
+<div class="superbigimage">
+
+```{r pc10, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "pca", label = FALSE) + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+
+</div>
+<div class="superbigimage">
+
+```{r pc10b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "pca", label = FALSE) + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+</div>
+
+## PCA splitted by time: WT vs mutant
+
+<div class="superbigimage">
+
+```{r pc20, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "pca", split.by = "time") + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+</div>
+<div class="superbigimage">
+
+```{r pc20b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "pca", split.by = "time") + guides(color = guide_legend(override.aes = list(size=4), ncol=1))
+```
+
+</div>
+
+
+## PCA grouped by time: WT vs mutant
+
+```{r pc30, echo = FALSE, results = "asis"}
+DimPlot(seu.WT, reduction = "pca", group.by = "time")
+```
+
+```{r pc30b, echo = FALSE, results = "asis"}
+DimPlot(seu.mutant, reduction = "pca", group.by = "time")
+```
+
+
+## Markers WT
+
+### Top 10 markers
+
+```{r c40, echo = FALSE, results = "asis"}
+grid.table(slice_max(seu.markers.WT, n = 10, order_by = avg_log2FC))
+```
+
+### Canonical markers
+
+```{r ccc0, echo = FALSE, results = "asis"}
+can.mark <- c("STMN2",
+              "GAP43",
+              "DCX",
+              "VIM", 
+              "HES1", 
+              "SOX2", 
+              "TBR1", 
+              "GAD1", 
+              "GAD2", 
+              "vGLUT1", 
+              "vGAT", 
+              "MYL1", 
+              "MYH3", 
+              "OLIG1/2", 
+              "GFAP", 
+              "SLC1A4", 
+              "S100B", 
+              "SLC17A7", 
+              "SLC17A6", 
+              "SLC32A1")
+```
+
+```{r cc40, echo = FALSE, results = "asis"}
+grid.table(seu.markers.WT[can.mark,][complete.cases(seu.markers.WT[can.mark,]),])
+```
+
+## Markers mutant
+
+### Top 10 markers
+
+```{r c50, echo = FALSE, results = "asis"}
+grid.table(slice_max(seu.markers.mutant, n = 10, order_by = avg_log2FC))
+```
+
+### Canonical markers
+
+```{r cc50, echo = FALSE, results = "asis"}
+grid.table(seu.markers.mutant[can.mark,][complete.cases(seu.markers.mutant[can.mark,]),])
+```
+
+## Markers expression: WT vs mutant
+
+### Top 10 markers
+
+```{r c60, echo = FALSE, results = "asis", fig.show="hold", out.width="50%", fig.height = 25}
+Stacked_VlnPlot(seu.WT,
+        ncol = 1,
+        features = slice_max(seu.markers.WT, n = 10, order_by = avg_log2FC)$gene,
+        pt.size = 0,
+        x_lab_rotate = 90)
+Stacked_VlnPlot(seu.mutant,
+        ncol = 1,
+        features = slice_max(seu.markers.mutant, n = 10, order_by = avg_log2FC)$gene,
+        pt.size = 0,
+        x_lab_rotate = 90)
+```
+
+### Canonical markers
+
+```{r cc60, echo = FALSE, results = "asis", fig.show="hold", out.width="50%", fig.height = 25}
+Stacked_VlnPlot(seu.WT,
+        ncol = 1,
+        features = seu.markers.WT[can.mark,][complete.cases(seu.markers.WT[can.mark,]),]$gene,
+        pt.size = 0,
+        x_lab_rotate = 90)
+Stacked_VlnPlot(seu.mutant,
+        ncol = 1,
+        features = seu.markers.mutant[can.mark,][complete.cases(seu.markers.mutant[can.mark,]),]$gene,
+        pt.size = 0,
+        x_lab_rotate = 90)
+```
+
+## Canonical markers expression patterns
+
+### WT
+
+```{r cc70, echo = FALSE, results = "asis", warning = FALSE, out.width = "100%", fig.height = 20}
+colGEX <- c("grey85", brewer.pal(7, "Reds"))
+plotTheme <- theme_classic(base_size = 18)
+
+FeaturePlot_scCustom(seu.WT, reduction = "umap", pt.size = 0.1, num_columns = 3,
+                  features = seu.markers.WT[can.mark,][complete.cases(seu.markers.WT[can.mark,]),]$gene, order = TRUE) &
+  scale_color_gradientn(colors = colGEX) & plotTheme & coord_fixed()
+```
+
+### Mutant
+
+```{r cc80, echo = FALSE, results = "asis", warning = FALSE, out.width = "100%", fig.height = 20}
+
+FeaturePlot_scCustom(seu.mutant, reduction = "umap", pt.size = 0.1, num_columns = 3,
+                  features = seu.markers.mutant[can.mark,][complete.cases(seu.markers.mutant[can.mark,]),]$gene, order = TRUE) &
+  scale_color_gradientn(colors = colGEX) & plotTheme & coord_fixed()
+```
